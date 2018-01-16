@@ -34,7 +34,7 @@ class GetSharpSpringInfo extends Widget{
         /**
          * Set the name of the widget belongs to.
          */
-        $config->setName('SharpSpringWidgetByAmperage_SharpSpring');
+        $config->setName('SharpSpringWidgetByAmperage_SharpSpringLeads');
 
         /**
          * Set the order of the widget. The lower the number, the earlier the widget will be listed within a category.
@@ -85,6 +85,8 @@ class GetSharpSpringInfo extends Widget{
         try {
 
 			$debug_help = false; // Toggle whether the SharpSpring API helper text should be shown
+			$debug_leads = false; // Toggle whether the SharpSpring Lead raw output should be shown
+			$debug_leads_details = false; // Toggle whether the SharpSpring Lead output (parsed & roughly formatted) should be shown
 
 	        $output = '<div class="widget-body">';
 
@@ -100,8 +102,12 @@ class GetSharpSpringInfo extends Widget{
 				$output.= '<p>You first need to configure the SharpSpring API Keys in your <a href="index.php?module=UsersManager&action=userSettings#SharpSpringWidgetByAmperage">user settings</a>.</p>';
 			}else{ // API Keys have been provided
 
+		        if($debug_help){
+			        $output.= '<p>This is where the SharpSpring API data would be shown (leads, campaigns, etc. as documented at <a href="https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview" target="_blank">https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview</a> and <a href="https://marketingautomation.services/settings/pubapireference" target="_blank">https://marketingautomation.services/settings/pubapireference</a> [exact URL may be different after logging in])</p>';
+		        }
+
 				$method = 'getLeads';
-				$params = array('where' => array(), 'limit' => 1, 'offset' => 0);
+				$params = array('where' => array(), 'limit' => 5, 'offset' => 0);
 				$requestID = session_id();
 				$data = array(
 					'method' => $method,
@@ -120,10 +126,50 @@ class GetSharpSpringInfo extends Widget{
 				$result = curl_exec($ch);
 				curl_close($ch);
 
-		        $output.= '<p><strong>Example lead retrieval:</strong> <code>'.$result.'</code></p>';
-		        if($debug_help){
-			        $output.= '<p>This is where the SharpSpring API data would be shown (leads, campaigns, etc. as documented at <a href="https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview" target="_blank">https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview</a> and <a href="https://marketingautomation.services/settings/pubapireference" target="_blank">https://marketingautomation.services/settings/pubapireference</a> [exact URL may be different after logging in])</p>';
+		        if($debug_leads){
+			        $output.= '<p><strong>Example lead retrieval:</strong> <code>'.$result.'</code></p>';
 		        }
+
+				if($debug_leads_details){
+			        $leads = json_decode($result);
+					$leadCount = 0;
+					foreach($leads->result as $lead){
+						foreach($lead as $lead_details){
+							$output.= '<dl class="sharpspring-lead">';
+							foreach($lead_details as $key => $value){
+								$output.= '<dt>'.$key.'</dt><dd>'.$value.'</dd>';
+							}
+							$output.='</dl><!-- .sharpspring-lead -->';
+						}
+						$leadCount++;
+					}
+				}
+
+		        $leads = json_decode($result);
+				$leadCount = 0;
+				foreach($leads->result as $lead){
+					foreach($lead as $lead_details){
+						$output.= '<a href="https://marketingautomation.services/lead/'.$lead_details->id.'" target="_blank" class="sharpspring-lead">';
+						$output.= '<strong>Name</strong>';
+						$output.= '<span>'.$lead_details->firstName.' '.$lead_details->lastName.'</span>';
+						$output.= '<strong>Company Name</strong>';
+						$output.= '<span>'.$lead_details->companyName.'</span>';
+						$output.= '<strong>Title</strong>';
+						$output.= '<span>'.$lead_details->title.'</span>';
+						$output.= '<strong>Lead Score</strong>';
+						$output.= '<span>'.$lead_details->leadScoreWeighted.'</span>';
+						$output.= '<strong>Lead Status</strong>';
+						$output.= '<span>'.ucfirst($lead_details->leadStatus).'</span>';
+						$output.= '<strong>Updated Timestamp</strong>';
+						$output.= '<span>'.$lead_details->updateTimestamp.'</span>';
+						$output.='</a><!-- .sharpspring-lead -->';
+					}
+					$leadCount++;
+				}
+
+				if($leadCount<1){
+					$output.= '<p>No <a href="https://marketingautomation.services/" target="_blank">SharpSpring</a> leads have been recorded using the account the SharpSpring API keys are for yet.</p>';
+				}
 
 	        }
 
