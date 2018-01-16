@@ -84,30 +84,49 @@ class GetSharpSpringInfo extends Widget{
     public function render(){
         try {
 
-			$api_account_id = ''; // Insert API Key here
-			$api_secret_key = ''; // Insert API Secret here
-			$method = 'getLeads';
-			$params = array('where' => array(), 'limit' => 1, 'offset' => 0);
-			$requestID = session_id();
-			$data = array(
-				'method' => $method,
-				'params' => $params,
-				'id' => $requestID,
-			);
-			$data = json_encode($data);
-			$ch = curl_init('https://api.sharpspring.com/pubapi/v1/?accountID='.$api_account_id.'&secretKey='.$api_secret_key);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-				'Content-Type: application/json',
-				'Content-Length: ' . strlen($data)
-			));
-			$result = curl_exec($ch);
-			curl_close($ch);
+			$debug_help = false; // Toggle whether the SharpSpring API helper text should be shown
+
 	        $output = '<div class="widget-body">';
-	        $output.= '<p><strong>Example lead retrieval:</strong> <code>'.$result.'</code></p>';
-	        $output.= '<p>This is where the SharpSpring API data would be shown (leads, campaigns, etc. as documented at <a href="https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview" target="_blank">https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview</a> and <a href="https://amperagemarketingfundraising.marketingautomation.services/settings/pubapireference" target="_blank">https://amperagemarketingfundraising.marketingautomation.services/settings/pubapireference</a>)</p>';
+
+			$api_key = '';
+			$secret = '';
+
+			// Get Piwik user's settings for the API Key & Secret they've set there (allowing different Piwik users to have different SharpSpring authentication)
+			$settings = new \Piwik\Plugins\SharpSpringWidgetByAmperage\UserSettings();
+			$api_key = $settings->sharpSpringAPIKey->getValue();
+			$secret = $settings->sharpSpringSecretKey->getValue();
+
+			if($api_key == '' || $secret == ''){
+				$output.= '<p>You first need to configure the SharpSpring API Keys in your <a href="index.php?module=UsersManager&action=userSettings#SharpSpringWidgetByAmperage">user settings</a>.</p>';
+			}else{ // API Keys have been provided
+
+				$method = 'getLeads';
+				$params = array('where' => array(), 'limit' => 1, 'offset' => 0);
+				$requestID = session_id();
+				$data = array(
+					'method' => $method,
+					'params' => $params,
+					'id' => $requestID,
+				);
+				$data = json_encode($data);
+				$ch = curl_init('https://api.sharpspring.com/pubapi/v1/?accountID='.$api_key.'&secretKey='.$secret);
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+					'Content-Type: application/json',
+					'Content-Length: ' . strlen($data)
+				));
+				$result = curl_exec($ch);
+				curl_close($ch);
+
+		        $output.= '<p><strong>Example lead retrieval:</strong> <code>'.$result.'</code></p>';
+		        if($debug_help){
+			        $output.= '<p>This is where the SharpSpring API data would be shown (leads, campaigns, etc. as documented at <a href="https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview" target="_blank">https://help.sharpspring.com/hc/en-us/articles/115001069228-Open-API-Overview</a> and <a href="https://marketingautomation.services/settings/pubapireference" target="_blank">https://marketingautomation.services/settings/pubapireference</a> [exact URL may be different after logging in])</p>';
+		        }
+
+	        }
+
 	        $output.= '</div>';
 	        return $output;
 

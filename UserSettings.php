@@ -1,9 +1,10 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
  */
 
 namespace Piwik\Plugins\SharpSpringWidgetByAmperage;
@@ -22,58 +23,34 @@ use Piwik\Settings\FieldConfig;
 class UserSettings extends \Piwik\Settings\Plugin\UserSettings
 {
     /** @var Setting */
-    public $autoRefresh;
+    public $sharpSpringAPIKey;
 
     /** @var Setting */
-    public $refreshInterval;
-
-    /** @var Setting */
-    public $color;
+    public $sharpSpringSecretKey;
 
     protected function init()
     {
-        // User setting --> checkbox converted to bool
-        $this->autoRefresh = $this->createAutoRefreshSetting();
-
-        // User setting --> textbox converted to int defining a validator and filter
-        $this->refreshInterval = $this->createRefreshIntervalSetting();
-
-        // User setting --> radio
-        $this->color = $this->createColorSetting();
+        $this->sharpSpringAPIKey = $this->createSharpSpringAPIKey();
+        $this->sharpSpringSecretKey = $this->createSharpSpringSecretKey();
     }
 
-    private function createAutoRefreshSetting()
+    private function createSharpSpringAPIKey()
     {
-        return $this->makeSetting('autoRefresh', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $field->title = 'Auto refresh';
-            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            $field->description = 'If enabled, the value will be automatically refreshed depending on the specified interval';
-        });
-    }
-
-    private function createRefreshIntervalSetting()
-    {
-        return $this->makeSetting('refreshInterval', $default = '30', FieldConfig::TYPE_INT, function (FieldConfig $field) {
-            $field->title = 'Refresh Interval';
+        return $this->makeSetting('sharpSpringAPIKey', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $field->title = 'Account ID';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->uiControlAttributes = array('size' => 3);
-            $field->description = 'Defines how often the value should be updated';
-            $field->inlineHelp  = 'Enter a number which is >= 15';
-            $field->validate = function ($value, $setting) {
-                if ($value < 15) {
-                    throw new \Exception('Value is invalid');
-                }
-            };
+            $field->description = 'The `Account ID` SharpSpring provides on https://marketingautomation.services/settings/pubapi (your exact URL may be slightly different)';
         });
     }
 
-    private function createColorSetting()
+    private function createSharpSpringSecretKey()
     {
-        return $this->makeSetting('color', $default = 'red', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-            $field->title = 'Color';
-            $field->uiControl = FieldConfig::UI_CONTROL_RADIO;
-            $field->description = 'Pick your favourite color';
-            $field->availableValues = array('red' => 'Red', 'blue' => 'Blue', 'green' => 'Green');
+        return $this->makeSetting('sharpSpringSecretKey', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $field->title = 'Secret Key';
+            $field->uiControl = FieldConfig::UI_CONTROL_PASSWORD;
+            $field->uiControlAttributes = array('size' => 3);
+            $field->description = 'The `Secret Key` SharpSpring provides on https://marketingautomation.services/settings/pubapi (your exact URL may be slightly different)';
         });
     }
 

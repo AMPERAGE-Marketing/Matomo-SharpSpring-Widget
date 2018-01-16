@@ -1,9 +1,9 @@
 # Changelog
 
-## 1.0.1
+## 0.1.0
 
 - Added API keys as a user-specific setting.
 
-## 1.0
+## 0.0.1
 
 - Initial Release.
