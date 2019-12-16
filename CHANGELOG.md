@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Better scoped the widget styles.
+- Made more use of existing CSS within Matomo instead of using custom styles.
+
 ## 0.2.0
 
 - Formatted the lead output.

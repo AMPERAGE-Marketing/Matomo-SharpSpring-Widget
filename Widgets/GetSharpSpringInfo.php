@@ -149,7 +149,7 @@ class GetSharpSpringInfo extends Widget{
 				$leadCount = 0;
 				foreach($leads->result as $lead){
 					foreach($lead as $lead_details){
-						$output.= '<a href="https://marketingautomation.services/lead/'.$lead_details->id.'" target="_blank" class="sharpspring-lead">';
+						$output.= '<a href="https://marketingautomation.services/lead/'.$lead_details->id.'" target="_blank" class="sharpspring-lead alert alert-info">';
 						$output.= '<strong>Name</strong>';
 						$output.= '<span>'.$lead_details->firstName.' '.$lead_details->lastName.'</span>';
 						$output.= '<strong>Company Name</strong>';
