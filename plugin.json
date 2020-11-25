@@ -1,37 +1,30 @@
 {
-    "name": "SharpSpringWidgetByAmperage",
-    "version": "0.2.1",
-    "description": "Show SharpSpring info as a widget.",
-    "theme": false,
-    "keywords": [
-        "amperage",
-        "SharpSpring",
-        "Sharp Spring",
-        "CRM",
-        "leads",
-        "widget"
-    ],
-    "license": "GPL v3+",
-    "homepage": "http:\/\/www.amperagemarketing.com",
-    "require": {
-        "piwik": ">=3.3.0-stable,<4.0.0-b1"
-    },
-    "support": {
-        "email": "kzeni1@gmail.com",
-        "issues": "https:\/\/github.com\/AMPERAGE-Marketing\/Matomo-SharpSpring-Widget\/issues",
-        "wiki": "https:\/\/github.com\/AMPERAGE-Marketing\/Matomo-SharpSpring-Widget\/wiki",
-        "source": "https:\/\/github.com\/AMPERAGE-Marketing\/Matomo-SharpSpring-Widget"
-    },
-    "authors": [
-        {
-            "name": "Amperage Marketing & Fundraising",
-            "email": "digital@amperagemarketing.com",
-            "homepage": "http:\/\/www.amperagemarketing.com"
-        },
-        {
-            "name": "Kurt Zenisek",
-            "email": "kzeni1@gmail.com",
-            "homepage": "http:\/\/kzeni.com"
-        }
-    ]
+	"name": "SharpSpringWidgetByAmperage",
+	"version": "0.2.2",
+	"description": "Show SharpSpring info as a widget.",
+	"theme": false,
+	"keywords": ["amperage", "SharpSpring", "Sharp Spring", "CRM", "leads", "widget"],
+	"license": "GPL v3+",
+	"homepage": "http://www.amperagemarketing.com",
+	"require": {
+		"piwik": ">=3.3.0-stable,<5.0.0-b1"
+	},
+	"support": {
+		"email": "kzeni1@gmail.com",
+		"issues": "https://github.com/AMPERAGE-Marketing/Matomo-SharpSpring-Widget/issues",
+		"wiki": "https://github.com/AMPERAGE-Marketing/Matomo-SharpSpring-Widget/wiki",
+		"source": "https://github.com/AMPERAGE-Marketing/Matomo-SharpSpring-Widget"
+	},
+	"authors": [
+		{
+			"name": "Amperage Marketing & Fundraising",
+			"email": "digital@amperagemarketing.com",
+			"homepage": "http://www.amperagemarketing.com"
+		},
+		{
+			"name": "Kurt Zenisek",
+			"email": "kzeni1@gmail.com",
+			"homepage": "http://kzeni.com"
+		}
+	]
 }
