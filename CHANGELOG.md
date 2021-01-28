@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3
+
+- Split Matomo 3 and Matomo 4 versions.
+
 ## 0.2.2
 
 - Confirmed Matomo 4 compliance.
