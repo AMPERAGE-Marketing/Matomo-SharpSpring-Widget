@@ -1,13 +1,13 @@
 {
 	"name": "SharpSpringWidgetByAmperage",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "Show SharpSpring info as a widget.",
 	"theme": false,
 	"keywords": ["amperage", "SharpSpring", "Sharp Spring", "CRM", "leads", "widget"],
 	"license": "GPL v3+",
 	"homepage": "http://www.amperagemarketing.com",
 	"require": {
-		"piwik": ">=3.3.0-stable,<5.0.0-b1"
+		"piwik": ">=3.3.0-stable,<4.0.0-b1"
 	},
 	"support": {
 		"email": "kzeni1@gmail.com",
