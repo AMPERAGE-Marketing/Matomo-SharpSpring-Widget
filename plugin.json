@@ -1,6 +1,6 @@
 {
 	"name": "SharpSpringWidgetByAmperage",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "Show SharpSpring info as a widget.",
 	"theme": false,
 	"keywords": ["amperage", "SharpSpring", "Sharp Spring", "CRM", "leads", "widget"],
