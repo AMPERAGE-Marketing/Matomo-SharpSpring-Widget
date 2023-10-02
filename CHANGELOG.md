@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.0.1
+
+- Updated changelog & other metadata for 5.x releases.
+
+## 5.0.0
+
+- Prepped release for Matomo 5.x while also version-bumping the plugin to 5.0.0 as a base value per Matomo's recommendation/convention for Matomo 5.x plugins.
+
 ## 0.2.4
 
 - Version bump Matomo 4 plugin as that is technically newer.
